@@ -3,11 +3,7 @@ import { Item } from './item';
 
 @Component({
 	selector:'item-detail',
-	template:`<div *ngIf="item">
-			  <p>Artist:{{item.artist}}</p>
-			  <p>{{item.description}}</p>
-			  <p>Price: {{item.price}}</p>
-			  </div>`,
+	templateUrl:'./item-detail.component.html',
 	styles:[``]
 })
 export class ItemDetailComponent{

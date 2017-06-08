@@ -1,24 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Item } from './item';
+import {ItemsService} from './items.service';
+
 
 @Component({
 	selector:'.mu-app',
-	template:`<h1>{{title}}</h1>
-			  <h2>{{item.title}}</h2>
-			  <img [src]="item.artwork" alt="{{item.title}}" (click)="showInfo(item)" />
-			  <item-detail [item]="selectedItem" ></item-detail>`,
-	styles:[`img:hover{ cursor:pointer}`]
+	templateUrl:'./app.component.html',
+	styleUrls:['./app.component.css']
 })
-export class AppComponent{
-	title:string = 'Music Catalog';
-	item:Item;
+export class AppComponent implements OnInit{
+	title:string ;
+	items:Item[];
 	selectedItem:Item;
-	constructor(){
-		this.item = {"id": "MU224","title": "Below the Salt","artist": "Steeleye Span","price": 3.49,"artwork": "./images/below_salt.jpg","description": "Maddy Prior leads on this carefully chosen selection of traditional folk songs."};
+
+	constructor(private itemsService:ItemsService){
+		this.title = 'Music Catalog'; 
 	}
 
 	showInfo(item:Item):void{
 		this.selectedItem = item;
 	}
 
+	getItems():void {
+		console.log('before get items');
+		this.itemsService.getItems()
+				.then( (items)=> this.items = items)
+				.catch((error)=>console.log(error));
+		console.log('after get items');
+	}
+
+	ngOnInit():void{
+		this.getItems();
+	}
 }

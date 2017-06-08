@@ -12,7 +12,7 @@ li span {
 
 li {
     border: 1px solid #ccc;
-    width: 200px;
+    width: 150px;
     margin-bottom: 10px;
     padding: 5px;
     border-radius: 3px;
@@ -25,4 +25,13 @@ ul {
 li:hover {
     box-shadow: 5px 5px #333;
     background-color: #ccc;
+}
+
+ul li {
+    float: left;
+    margin-right: 30px;
+}
+
+.clearfix {
+    clear:both;
 }

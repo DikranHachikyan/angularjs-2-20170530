@@ -11,10 +11,16 @@ import {Category} from './category';
 export class DataService {
 	constructor( private http:Http){}
 
-	getItems():Promise<Item[]>{
+	getItems(cat:string):Promise<Item[]>{
 		return this.http.get('/app/data/cd-db-angular.js')
 						.toPromise()
-						.then((response)=> response.json() as Item[])
+						.then((response)=>{ 
+							let items = response.json() as Item[];
+							let elms:Item[] = items.filter((item)=>{
+								return item.category === cat;
+							});
+							return Promise.resolve(elms);
+						})
 						.catch(this.handleError);
 	}
 

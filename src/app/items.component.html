@@ -1,9 +1,10 @@
-<h1>{{title}}</h1>
+<button (click)="goBack()">Back</button>
 <ul>
 <li *ngFor="let item of items" (click)="showInfo(item)" >
 	<h2>{{item.title}}</h2>
     <img [src]="item.artwork" alt="{{item.title}}" />
 </li>
 </ul>
+<button (click)="goBack()">Back</button>
 <div class="clearfix"></div>
 <item-detail [item]="selectedItem" ></item-detail>

@@ -5,11 +5,13 @@ import {DataService} from './data.service';
 
 
 @Component({
-	selector:'list-categeries',
+	selector:'list-categories',
 	template:`<ul>
 				<li *ngFor="let cat of categories">
-					<h3>{{cat.title}}</h3>
-					<img [src]="cat.thumbnail" alt="{{cat.title}}" />
+					<a routerLink="/category/{{cat.id}}">
+					  <h3>{{cat.title}}</h3>
+					  <img [src]="cat.thumbnail" alt="{{cat.title}}" />
+					</a>
 				</li>
 			  </ul>
 			  <p>Description</p>`

@@ -5,4 +5,5 @@ export class Item {
 	price:number;
 	artwork:string;
 	description:string;
+	category:string;
 }

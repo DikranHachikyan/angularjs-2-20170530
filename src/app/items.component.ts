@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
+
+import 'rxjs/add/operator/switchMap';
+
 import { Item } from './item';
 import { DataService } from './data.service';
 
@@ -9,27 +14,33 @@ import { DataService } from './data.service';
 	styleUrls:['./items.component.css']
 })
 export class ItemsComponent implements OnInit{
-	title:string ;
 	items:Item[];
 	selectedItem:Item;
 
-	constructor(private dataService:DataService){
-		this.title = 'Music Catalog'; 
-	}
+	constructor(
+		private dataService:DataService,
+		private route:ActivatedRoute,
+		private location:Location){}
 
 	showInfo(item:Item):void{
 		this.selectedItem = item;
 	}
 
-	getItems():void {
+	/*getItems():void {
 		console.log('before get items');
 		this.dataService.getItems()
 				.then( (items)=> this.items = items)
 				.catch((error)=>console.log(error));
 		console.log('after get items');
 	}
-
+    */
+    goBack():void{
+    	this.location.back();
+    }
 	ngOnInit():void{
-		this.getItems();
+		//this.getItems();
+		this.route.params
+				  .switchMap( (params:Params) => this.dataService.getItems(params['cat']))
+				  .subscribe((items:Item[])=>this.items = items);
 	}
 }

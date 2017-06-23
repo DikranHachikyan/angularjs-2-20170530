@@ -1,13 +1,14 @@
 import {Component,OnInit} from '@angular/core';
 
 import {Category} from './category';
-import {DataService} from './data.service';
+import {FirebaseDataService} from './firebase-data.service';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
 	selector:'list-categories',
 	template:`<ul>
-				<li *ngFor="let cat of categories">
+				<li *ngFor="let cat of categories|async">
 					<a routerLink="/category/{{cat.id}}">
 					  <h3>{{cat.title}}</h3>
 					  <img [src]="cat.thumbnail" alt="{{cat.title}}" />
@@ -17,15 +18,14 @@ import {DataService} from './data.service';
 			  <p>Description</p>`
 })
 export class CategoriesComponent implements OnInit{
-	categories:Category[];
+	categories:Observable<Category[]>;
 
-	constructor( private dataService:DataService){}
+	constructor( private dataService:FirebaseDataService){}
 	
 
 	getCategories():void {
-		this.dataService.getCategories()
-				.then( (categories)=> this.categories = categories)
-				.catch((error)=>console.log(error));
+		this.categories = this.dataService.getCategories();
+				
 	}
 
 	ngOnInit():void{

@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
-//http://reactivex.io/
-import 'rxjs/add/operator/toPromise';
+import {Http, Response} from '@angular/http';
+
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 import {Item} from './item';
 import {Category} from './category';
 
@@ -11,28 +12,19 @@ import {Category} from './category';
 export class DataService {
 	constructor( private http:Http){}
 
-	getItems(cat:string):Promise<Item[]>{
-		return this.http.get('/app/data/cd-db-angular.js')
-						.toPromise()
-						.then((response)=>{ 
-							let items = response.json() as Item[];
-							let elms:Item[] = items.filter((item)=>{
-								return item.category === cat;
-							});
-							return Promise.resolve(elms);
-						})
-						.catch(this.handleError);
+	getItems(cat:string):Observable<Item[]>{
+		return this.http.get('https://music-shop-angular2.firebaseio.com/collections/'+cat+'.json')
+						.map((response:Response)=>{
+							return response.json();
+						});
 	}
 
-	getCategories():Promise<Category[]>{
-		return this.http.get('/app/data/cd-db-categories-angular.js')
-						.toPromise()
-						.then((response)=>response.json() as Category[])
-						.catch(this.handleError);		
+	getCategories():Observable<Category[]>{
+		return this.http.get('https://music-shop-angular2.firebaseio.com/categories.json')
+						.map( (response:Response)=>{
+							let res  = response.json();
+							return response.json();
+						});		
 	}
 
-	handleError(error:any):Promise<any>{
-		console.log('Error:', error);
-		return Promise.reject( error);
-	}
 }

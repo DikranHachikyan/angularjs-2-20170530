@@ -17,15 +17,21 @@ import {DataService} from './data.service';
 			  <p>Description</p>`
 })
 export class CategoriesComponent implements OnInit{
-	categories:Category[];
+	categories:Category[]=[];
 
 	constructor( private dataService:DataService){}
 	
 
 	getCategories():void {
 		this.dataService.getCategories()
-				.then( (categories)=> this.categories = categories)
-				.catch((error)=>console.log(error));
+						.subscribe((categories)=>{
+							let keys = Object.keys(categories);
+
+							keys.forEach((key)=>{
+								this.categories.push(categories[key]);
+							})
+							console.log('categories:', categories);
+						});
 	}
 
 	ngOnInit():void{

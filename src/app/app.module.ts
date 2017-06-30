@@ -5,12 +5,16 @@ import { RouterModule } from '@angular/router';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
 import { CategoriesComponent} from './categories.component';
 import { ItemDetailComponent } from './item-detail.component';
 import { ItemsComponent } from './items.component';
+import { AppLoginComponent } from './app-login.component';
 import { FirebaseDataService } from './firebase-data.service';
+import { AppRoutingModule } from './app-routing.module';
+import { AuthService } from './auth.service';
 
 const config = {
     apiKey: "AIzaSyBnRjBEBvxO2IiamgczmoyUN087l_RUt8w",
@@ -24,28 +28,18 @@ const config = {
 @NgModule({
 	imports:[BrowserModule, 
 	         HttpModule,
-	         RouterModule.forRoot([{
-	         	path:'categories',
-	         	component: CategoriesComponent
-	         },
-	         {
-	         	path:'category/:cat',
-	         	component:ItemsComponent
-	         },
-	         {
-	         	path:'',
-	         	redirectTo:'/categories',
-	         	pathMatch:'prefix'
-	         }]),
+	         AppRoutingModule,
 	         AngularFireModule.initializeApp(config),
-	         AngularFireDatabaseModule
+	         AngularFireDatabaseModule,
+             AngularFireAuthModule
 	        ],
 	declarations:[AppComponent, 
 	              ItemDetailComponent,
 	              ItemsComponent, 
-	              CategoriesComponent
+	              CategoriesComponent,
+                  AppLoginComponent
 	          ],
-	providers:[FirebaseDataService],
+	providers:[FirebaseDataService, AuthService],
 	bootstrap:[AppComponent]
 })
 export class AppModule {
